@@ -1,0 +1,4 @@
+# StockPilot AI — Docker Compose (scaffold placeholder)
+# Service definitions will be added during implementation.
+
+services: {}
