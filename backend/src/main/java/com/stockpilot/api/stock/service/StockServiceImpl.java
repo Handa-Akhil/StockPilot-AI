@@ -5,6 +5,7 @@ import com.stockpilot.api.stock.client.MarketClient;
 import com.stockpilot.api.stock.dto.StockCandleResponse;
 import com.stockpilot.api.stock.dto.StockQuoteResponse;
 import com.stockpilot.api.stock.dto.StockSearchResponse;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +13,9 @@ import java.util.Set;
 
 /**
  * Purpose: Business logic implementation for stock market data operations.
- * Responsibilities: Performs request parameter validation and coordinates fetching from MarketClient.
+ * Responsibilities: Performs request parameter validation and coordinates fetching from MarketClient, with cache integrations.
  * Dependencies: MarketClient.
- * Flow: Validates inputs, forwards calls to client, throws validation/format anomalies.
+ * Flow: Validates inputs, checks cache via @Cacheable, forwards calls to client on cache miss.
  */
 @Service
 public class StockServiceImpl implements StockService {
@@ -35,6 +36,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
+    @Cacheable(value = "stock:quote", key = "#symbol.trim().toUpperCase()", unless = "#result == null")
     public StockQuoteResponse getQuote(String symbol) {
         validateSymbol(symbol);
         try {
@@ -52,6 +54,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
+    @Cacheable(value = "stock:history", key = "#symbol.trim().toUpperCase() + ':' + #range.trim().toLowerCase()", unless = "#result == null")
     public List<StockCandleResponse> getHistory(String symbol, String range) {
         validateSymbol(symbol);
         if (range == null || !SUPPORTED_RANGES.contains(range.trim().toLowerCase())) {
@@ -72,7 +75,6 @@ public class StockServiceImpl implements StockService {
             throw new IllegalArgumentException("Symbol parameter cannot be blank");
         }
         String cleanSymbol = symbol.trim();
-        // Regex: allows letters, numbers, dots, and hyphens (standard exchange symbols, e.g. TCS.NS, AAPL)
         if (!cleanSymbol.matches("^[A-Za-z0-9.\\-]+$")) {
             throw new IllegalArgumentException("Symbol contains invalid characters: " + symbol);
         }
