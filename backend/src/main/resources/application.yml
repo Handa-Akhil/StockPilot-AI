@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: StockPilot-API
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5433}/${DATABASE_NAME:stockpilot}
+    username: ${DATABASE_USER:stockpilot}
+    password: ${DATABASE_PASSWORD:stockpilot_password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+server:
+  port: 8080
+  error:
+    include-message: always
+
+stockpilot:
+  app:
+    # 256-bit secret key for HMAC SHA (base64 encoded custom token)
+    jwtSecret: dGhpcy1pcy1hLXNlY3VyZS1hbmQtc3Ryb25nLXNlY3JldC1rZXktZm9yLXN0b2NrcGlsb3QtYWktYXBwbGljYXRpb24tMjAyNg==
+    jwtExpirationMs: 900000 # 15 minutes
+    jwtRefreshExpirationMs: 604800000 # 7 days
+  market-service:
+    url: ${AI_SERVICE_BASE_URL:http://localhost:8000}
+    connectTimeoutMs: 5000
+    readTimeoutMs: 10000
+    retryCount: 3

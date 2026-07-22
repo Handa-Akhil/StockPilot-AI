@@ -1,0 +1,157 @@
+/* StockPilot AI Design System & Global Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Color Palette (HSL System) */
+  --bg-base: 224 25% 6%;         /* Deep space dark navy: #080b11 */
+  --bg-card: 224 22% 9%;         /* Slightly lighter card navy: #0c101a */
+  --bg-card-hover: 224 20% 12%;   /* Hover state card navy: #131929 */
+  
+  --primary: 263 90% 64%;        /* Electric Indigo: #7c3aed */
+  --primary-hover: 263 90% 70%;  /* Lightened Indigo */
+  --primary-glow: rgba(124, 58, 237, 0.15);
+
+  --secondary: 174 86% 44%;      /* Tech Emerald/Teal: #0ea5e9 */
+  --secondary-glow: rgba(14, 165, 233, 0.15);
+  
+  --accent: 326 95% 60%;         /* Fusion Magenta: #ec4899 */
+  --accent-glow: rgba(236, 72, 153, 0.15);
+
+  --success: 142 72% 43%;        /* Forest Emerald (Gainers): #10b981 */
+  --warning: 38 92% 50%;         /* Gold/Amber (Warnings): #f59e0b */
+  --danger: 350 89% 50%;         /* Neon Coral/Red (Losers): #ef4444 */
+
+  /* Typography Colors */
+  --text-main: 220 20% 97%;      /* Off-white */
+  --text-muted: 218 12% 65%;     /* Cool grey */
+  --text-dim: 218 8% 45%;        /* Darker grey */
+
+  /* Borders & Dividers */
+  --border-light: 224 20% 16%;   /* Light border line */
+  --border-glass: rgba(255, 255, 255, 0.05);
+
+  /* Fonts */
+  --font-display: 'Outfit', 'Inter', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: hsl(var(--bg-base));
+  color: hsl(var(--text-main));
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(12, 16, 26, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.glass-card {
+  background: rgba(12, 16, 26, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(19, 25, 41, 0.55);
+  border-color: rgba(124, 58, 237, 0.3);
+  box-shadow: 0 8px 24px 0 rgba(124, 58, 237, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 20px 2px rgba(124, 58, 237, 0.25);
+  }
+}
+
+.glow-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+  color: #ffffff;
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px 0 rgba(124, 58, 237, 0.3);
+}
+
+.glow-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px 0 rgba(124, 58, 237, 0.5);
+  filter: brightness(1.1);
+}
+
+.glow-btn:active {
+  transform: scale(0.98);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--bg-base));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Custom Utilities */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+input, select, textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid hsl(var(--border-light));
+  color: hsl(var(--text-main));
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: hsl(var(--primary));
+  background: rgba(124, 58, 237, 0.05);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
