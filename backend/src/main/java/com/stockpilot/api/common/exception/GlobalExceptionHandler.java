@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import com.stockpilot.api.portfolio.exception.PortfolioNotFoundException;
+import com.stockpilot.api.portfolio.exception.InsufficientSharesException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -71,6 +73,28 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest request) {
         ErrorResponse error = ErrorResponse.builder()
                 .code("VALIDATION_FAILED")
+                .message(ex.getMessage())
+                .timestamp(Instant.now().toString())
+                .path(request.getRequestURI())
+                .build();
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PortfolioNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePortfolioNotFound(PortfolioNotFoundException ex, HttpServletRequest request) {
+        ErrorResponse error = ErrorResponse.builder()
+                .code("PORTFOLIO_NOT_FOUND")
+                .message(ex.getMessage())
+                .timestamp(Instant.now().toString())
+                .path(request.getRequestURI())
+                .build();
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InsufficientSharesException.class)
+    public ResponseEntity<ErrorResponse> handleInsufficientShares(InsufficientSharesException ex, HttpServletRequest request) {
+        ErrorResponse error = ErrorResponse.builder()
+                .code("INSUFFICIENT_SHARES")
                 .message(ex.getMessage())
                 .timestamp(Instant.now().toString())
                 .path(request.getRequestURI())
