@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/utils/api';
+import { Card } from '@/components/Card';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
 import styles from './register.module.css';
 
 export default function RegisterPage() {
@@ -41,7 +44,7 @@ export default function RegisterPage() {
 
   return (
     <div className={styles.container}>
-      <div className={`${styles.card} glass-card`}>
+      <Card className={styles.card} elevation={2}>
         <div className={styles.titleArea}>
           <div className={styles.logo}>StockPilot AI</div>
           <p className={styles.subtitle}>Join StockPilot and understand the market.</p>
@@ -51,52 +54,43 @@ export default function RegisterPage() {
         {success && <div className={styles.success}>{success}</div>}
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="name">Full Name</label>
-            <input
-              className={styles.input}
-              type="text"
-              id="name"
-              placeholder="John Doe"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
+          <Input
+            label="Full Name"
+            type="text"
+            id="name"
+            placeholder="John Doe"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            disabled={loading}
+          />
 
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="email">Email Address</label>
-            <input
-              className={styles.input}
-              type="email"
-              id="email"
-              placeholder="name@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
+          <Input
+            label="Email Address"
+            type="email"
+            id="email"
+            placeholder="name@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={loading}
+          />
 
-          <div className={styles.group}>
-            <label className={styles.label} htmlFor="password">Password (min 6 chars)</label>
-            <input
-              className={styles.input}
-              type="password"
-              id="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              disabled={loading}
-            />
-          </div>
+          <Input
+            label="Password (min 6 chars)"
+            type="password"
+            id="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+            disabled={loading}
+          />
 
-          <button className={`${styles.button} glow-btn`} type="submit" disabled={loading}>
-            {loading ? 'Creating Account...' : 'Sign Up'}
-          </button>
+          <Button type="submit" loading={loading} style={{ width: '100%', marginTop: 'var(--space-2)' }}>
+            Sign Up
+          </Button>
         </form>
 
         <div className={styles.footer}>
@@ -105,7 +99,7 @@ export default function RegisterPage() {
             Sign In
           </Link>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

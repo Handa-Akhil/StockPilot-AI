@@ -3,7 +3,6 @@ package com.stockpilot.api.portfolio;
 import com.stockpilot.api.auth.User;
 import com.stockpilot.api.auth.UserRepository;
 import com.stockpilot.api.portfolio.dto.*;
-import com.stockpilot.api.portfolio.exception.InsufficientSharesException;
 import com.stockpilot.api.portfolio.exception.PortfolioNotFoundException;
 import com.stockpilot.api.portfolio.model.*;
 import com.stockpilot.api.portfolio.repository.HoldingRepository;

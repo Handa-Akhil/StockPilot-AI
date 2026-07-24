@@ -1,6 +1,10 @@
 import os
 import logging
 from typing import List
+from dotenv import load_dotenv
+
+# Load environment variables from .env if present
+load_dotenv()
 
 # Setup structured logging
 logging.basicConfig(
@@ -23,5 +27,14 @@ class Settings:
     
     # Market Data Provider
     MARKET_PROVIDER: str = os.getenv("MARKET_PROVIDER", "yahoo")
+
+    # Gemini AI Configuration
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", os.getenv("AI_API_KEY", ""))
+    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+
+    # Redis Cache Configuration
+    REDIS_HOST: str = os.getenv("REDIS_HOST", "localhost")
+    REDIS_PORT: int = int(os.getenv("REDIS_PORT", "6379"))
+    REDIS_TTL_SECONDS: int = int(os.getenv("REDIS_TTL_SECONDS", "600"))  # 10 minutes cache
 
 settings = Settings()

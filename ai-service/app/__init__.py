@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.exceptions import register_exception_handlers
 from app.routes.market import router as market_router
+from app.routes.analysis import router as analysis_router
 
 def create_app() -> FastAPI:
     app = FastAPI(
@@ -25,6 +26,7 @@ def create_app() -> FastAPI:
 
     # Register API routers
     app.include_router(market_router)
+    app.include_router(analysis_router)
 
     # Base routing check
     @app.get("/")

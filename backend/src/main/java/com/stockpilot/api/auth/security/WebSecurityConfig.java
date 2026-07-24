@@ -64,6 +64,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> 
                         auth.requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/api/health").permitAll()
+                            .requestMatchers("/ws/**", "/ws-direct/**").permitAll()
                             .anyRequest().authenticated()
                 );
 

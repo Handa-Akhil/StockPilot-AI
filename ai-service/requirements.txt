@@ -6,3 +6,4 @@ numpy==1.26.4
 yfinance==0.2.40
 pydantic==2.7.4
 python-dotenv==1.0.1
+redis==5.0.7

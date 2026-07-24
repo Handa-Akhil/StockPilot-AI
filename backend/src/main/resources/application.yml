@@ -24,6 +24,15 @@ server:
   error:
     include-message: always
 
+resend:
+  api:
+    key: ${RESEND_API_KEY:}
+
+email:
+  from: ${EMAIL_FROM:StockPilot AI <onboarding@resend.dev>}
+  reply:
+    to: ${EMAIL_REPLY_TO:support@stockpilot.ai}
+
 stockpilot:
   app:
     # 256-bit secret key for HMAC SHA (base64 encoded custom token)

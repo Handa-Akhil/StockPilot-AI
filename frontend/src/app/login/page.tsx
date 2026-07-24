@@ -4,6 +4,9 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { apiFetch, setTokens } from '@/utils/api';
+import { Card } from '@/components/Card';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
 import styles from './login.module.css';
 
 function LoginForm() {
@@ -34,10 +37,8 @@ function LoginForm() {
         body: JSON.stringify({ email, password }),
       });
       
-      // Save tokens
       setTokens(data.token, data.refreshToken);
       
-      // Save user details temporarily for UI greeting
       localStorage.setItem('sp_user_name', data.name || '');
       localStorage.setItem('sp_user_email', data.email || '');
 
@@ -50,7 +51,7 @@ function LoginForm() {
   };
 
   return (
-    <div className={`${styles.card} glass-card`}>
+    <Card className={styles.card} elevation={2}>
       <div className={styles.titleArea}>
         <div className={styles.logo}>StockPilot AI</div>
         <p className={styles.subtitle}>Understand Markets. Don't Just Watch Them.</p>
@@ -60,37 +61,31 @@ function LoginForm() {
       {sessionExpired && <div className={styles.notice}>Your session has expired. Please log in again.</div>}
 
       <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.group}>
-          <label className={styles.label} htmlFor="email">Email Address</label>
-          <input
-            className={styles.input}
-            type="email"
-            id="email"
-            placeholder="name@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
+        <Input
+          label="Email Address"
+          type="email"
+          id="email"
+          placeholder="name@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          disabled={loading}
+        />
 
-        <div className={styles.group}>
-          <label className={styles.label} htmlFor="password">Password</label>
-          <input
-            className={styles.input}
-            type="password"
-            id="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
+        <Input
+          label="Password"
+          type="password"
+          id="password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          disabled={loading}
+        />
 
-        <button className={`${styles.button} glow-btn`} type="submit" disabled={loading}>
-          {loading ? 'Signing In...' : 'Sign In'}
-        </button>
+        <Button type="submit" loading={loading} style={{ width: '100%', marginTop: 'var(--space-2)' }}>
+          Sign In
+        </Button>
       </form>
 
       <div className={styles.footer}>
@@ -99,7 +94,7 @@ function LoginForm() {
           Sign Up
         </Link>
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -107,7 +102,7 @@ export default function LoginPage() {
   return (
     <div className={styles.container}>
       <Suspense fallback={
-        <div style={{ color: '#9ca3af', fontSize: '14px', textAlign: 'center' }}>
+        <div style={{ color: 'var(--text-muted)', fontSize: '14px', textAlign: 'center' }}>
           Loading Login Form...
         </div>
       }>

@@ -1,13 +1,11 @@
 package com.stockpilot.api.stock;
 
 import com.stockpilot.api.stock.client.MarketClient;
-import com.stockpilot.api.stock.config.RedisCacheConfig;
 import com.stockpilot.api.stock.dto.StockCandleResponse;
 import com.stockpilot.api.stock.dto.StockQuoteResponse;
 import com.stockpilot.api.stock.service.StockService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
