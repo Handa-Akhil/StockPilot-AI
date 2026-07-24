@@ -48,6 +48,7 @@ import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { AlertList } from '@/components/alerts/AlertList';
 import { AlertModal, PriceAlert } from '@/components/alerts/AlertModal';
 import { NotificationSettingsModal } from '@/components/settings/NotificationSettingsModal';
+import { PortfolioAnalytics } from '@/components/portfolio/PortfolioAnalytics';
 
 interface UserProfile {
   id: number;
@@ -1339,6 +1340,12 @@ export default function DashboardPage() {
                 Profile settings, security options, and notification preferences are active. Click the settings icon in the top header to manage real-time alert notifications.
               </p>
             </Card>
+          ) : (activeTab as string) === 'portfolio' ? (
+            /* PORTFOLIO INTELLIGENCE DASHBOARD TAB */
+            <PortfolioAnalytics
+              portfolioId={selectedPortfolioId}
+              onRefreshTrigger={() => fetchPortfolios()}
+            />
           ) : (
             /* ====================================================
                LIVE MARKET INTELLIGENCE HUB (NEW)

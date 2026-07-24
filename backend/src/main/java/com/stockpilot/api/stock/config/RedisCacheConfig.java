@@ -86,6 +86,11 @@ public class RedisCacheConfig implements CachingConfigurer {
         cacheConfigurations.put("market:indices", defaultConfig.entryTtl(Duration.ofSeconds(300)));    // 5 minutes
         cacheConfigurations.put("market:trending", defaultConfig.entryTtl(Duration.ofSeconds(300)));   // 5 minutes
 
+        // Portfolio Intelligence Module Caches with Intelligent TTLs
+        cacheConfigurations.put("portfolio:summary", defaultConfig.entryTtl(Duration.ofSeconds(60)));    // 60 seconds
+        cacheConfigurations.put("portfolio:analytics", defaultConfig.entryTtl(Duration.ofSeconds(300)));// 5 minutes
+        cacheConfigurations.put("portfolio:history", defaultConfig.entryTtl(Duration.ofSeconds(600)));  // 10 minutes
+
         return new RedisCacheManager(
                 RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory),
                 defaultConfig,
