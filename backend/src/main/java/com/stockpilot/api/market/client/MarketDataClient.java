@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -72,7 +71,6 @@ public class MarketDataClient {
             return restTemplate.getForObject(url, CompanyProfileDto.class);
         } catch (Exception ex) {
             log.error("Failed fetching profile for {}: {}", cleanSymbol, ex.getMessage());
-            // Fallback profile
             return CompanyProfileDto.builder()
                     .symbol(cleanSymbol)
                     .name(cleanSymbol)
@@ -92,7 +90,7 @@ public class MarketDataClient {
             throw new InvalidSymbolException("Symbol parameter is required");
         }
         String cleanSymbol = symbol.trim().toUpperCase();
-        String tf = (timeframe == null || timeframe.isBlank()) ? "1mo" : timeframe.trim();
+        String tf = (timeframe == null || timeframe.isBlank()) ? "1mo" : timeframe.trim().toLowerCase();
         String url = baseUrl + "/ai/market/history/" + cleanSymbol + "?range=" + tf;
 
         try {
@@ -130,6 +128,54 @@ public class MarketDataClient {
             return response.getBody() != null ? response.getBody() : Collections.emptyList();
         } catch (Exception ex) {
             log.error("Failed fetching trending stocks: {}", ex.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    public List<MarketMoverDto> getGainers() {
+        String url = baseUrl + "/ai/market/gainers";
+        try {
+            var response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<MarketMoverDto>>() {}
+            );
+            return response.getBody() != null ? response.getBody() : Collections.emptyList();
+        } catch (Exception ex) {
+            log.error("Failed fetching gainers: {}", ex.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    public List<MarketMoverDto> getLosers() {
+        String url = baseUrl + "/ai/market/losers";
+        try {
+            var response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<MarketMoverDto>>() {}
+            );
+            return response.getBody() != null ? response.getBody() : Collections.emptyList();
+        } catch (Exception ex) {
+            log.error("Failed fetching losers: {}", ex.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    public List<MarketMoverDto> getMostActive() {
+        String url = baseUrl + "/ai/market/most-active";
+        try {
+            var response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<MarketMoverDto>>() {}
+            );
+            return response.getBody() != null ? response.getBody() : Collections.emptyList();
+        } catch (Exception ex) {
+            log.error("Failed fetching most active stocks: {}", ex.getMessage());
             return Collections.emptyList();
         }
     }

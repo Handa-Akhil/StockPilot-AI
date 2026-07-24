@@ -10,5 +10,8 @@ public interface MarketDataService {
     CompanyProfileDto getProfile(String symbol);
     HistoricalDataResponse getHistory(String symbol, String timeframe);
     List<TrendingStockDto> getTrending();
+    List<MarketMoverDto> getGainers();
+    List<MarketMoverDto> getLosers();
+    List<MarketMoverDto> getMostActive();
     List<MarketIndexDto> getIndices();
 }

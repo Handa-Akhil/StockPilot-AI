@@ -20,13 +20,25 @@ def get_profile(symbol: str = Path(..., description="Stock symbol to fetch compa
 @router.get("/history/{symbol}", response_model=List[StockCandleResponse])
 def get_history(
     symbol: str = Path(..., description="Stock symbol to fetch history for"),
-    range: str = Query("1mo", description="Historical duration, e.g. 1d, 5d, 1mo, 6mo, 1y")
+    range: str = Query("1mo", description="Historical duration, e.g. 1d, 5d, 1mo, 3mo, 6mo, 1y, 5y")
 ):
     return market_provider.get_history(symbol, range)
 
 @router.get("/trending")
 def get_trending():
     return market_provider.get_trending()
+
+@router.get("/gainers")
+def get_gainers():
+    return market_provider.get_gainers()
+
+@router.get("/losers")
+def get_losers():
+    return market_provider.get_losers()
+
+@router.get("/most-active")
+def get_most_active():
+    return market_provider.get_most_active()
 
 @router.get("/indices")
 def get_indices():

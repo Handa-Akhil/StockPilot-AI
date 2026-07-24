@@ -66,6 +66,27 @@ public class MarketDataServiceImpl implements MarketDataService {
     }
 
     @Override
+    @Cacheable(value = "market:gainers", unless = "#result.isEmpty()")
+    public List<MarketMoverDto> getGainers() {
+        log.info("Fetching top market gainers");
+        return marketDataClient.getGainers();
+    }
+
+    @Override
+    @Cacheable(value = "market:losers", unless = "#result.isEmpty()")
+    public List<MarketMoverDto> getLosers() {
+        log.info("Fetching top market losers");
+        return marketDataClient.getLosers();
+    }
+
+    @Override
+    @Cacheable(value = "market:most-active", unless = "#result.isEmpty()")
+    public List<MarketMoverDto> getMostActive() {
+        log.info("Fetching most active market equities");
+        return marketDataClient.getMostActive();
+    }
+
+    @Override
     @Cacheable(value = "market:indices", unless = "#result.isEmpty()")
     public List<MarketIndexDto> getIndices() {
         log.info("Fetching global market index benchmarks");

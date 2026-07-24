@@ -26,9 +26,15 @@ public class MarketDataController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<StockSearchResultDto>> searchStocks(@RequestParam String query) {
-        log.info("Request received: GET /api/v1/market/search?query={}", query);
-        List<StockSearchResultDto> results = marketDataService.searchStocks(query);
+    public ResponseEntity<List<StockSearchResultDto>> searchStocks(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String q) {
+        String searchTerm = (query != null && !query.isBlank()) ? query : q;
+        if (searchTerm == null || searchTerm.isBlank()) {
+            return ResponseEntity.ok(List.of());
+        }
+        log.info("Request received: GET /api/v1/market/search?query={}", searchTerm);
+        List<StockSearchResultDto> results = marketDataService.searchStocks(searchTerm);
         return ResponseEntity.ok(results);
     }
 
@@ -49,9 +55,11 @@ public class MarketDataController {
     @GetMapping("/history/{symbol}")
     public ResponseEntity<HistoricalDataResponse> getHistory(
             @PathVariable String symbol,
-            @RequestParam(defaultValue = "1mo") String timeframe) {
-        log.info("Request received: GET /api/v1/market/history/{}?timeframe={}", symbol, timeframe);
-        HistoricalDataResponse history = marketDataService.getHistory(symbol, timeframe);
+            @RequestParam(required = false) String range,
+            @RequestParam(required = false) String timeframe) {
+        String selectedRange = (range != null && !range.isBlank()) ? range : ((timeframe != null && !timeframe.isBlank()) ? timeframe : "1mo");
+        log.info("Request received: GET /api/v1/market/history/{}?range={}", symbol, selectedRange);
+        HistoricalDataResponse history = marketDataService.getHistory(symbol, selectedRange);
         return ResponseEntity.ok(history);
     }
 
@@ -60,6 +68,27 @@ public class MarketDataController {
         log.info("Request received: GET /api/v1/market/trending");
         List<TrendingStockDto> trending = marketDataService.getTrending();
         return ResponseEntity.ok(trending);
+    }
+
+    @GetMapping("/gainers")
+    public ResponseEntity<List<MarketMoverDto>> getGainers() {
+        log.info("Request received: GET /api/v1/market/gainers");
+        List<MarketMoverDto> gainers = marketDataService.getGainers();
+        return ResponseEntity.ok(gainers);
+    }
+
+    @GetMapping("/losers")
+    public ResponseEntity<List<MarketMoverDto>> getLosers() {
+        log.info("Request received: GET /api/v1/market/losers");
+        List<MarketMoverDto> losers = marketDataService.getLosers();
+        return ResponseEntity.ok(losers);
+    }
+
+    @GetMapping("/most-active")
+    public ResponseEntity<List<MarketMoverDto>> getMostActive() {
+        log.info("Request received: GET /api/v1/market/most-active");
+        List<MarketMoverDto> mostActive = marketDataService.getMostActive();
+        return ResponseEntity.ok(mostActive);
     }
 
     @GetMapping("/indices")
